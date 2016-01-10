@@ -1,0 +1,328 @@
+@charset "utf-8";
+/* CSS Document */
+  *{
+	margin: 0;
+	padding: 0;
+}
+html,body{
+	height:100%;
+}
+.swiper-container{
+	width:100%;
+	height:100%;
+}
+.swiper-slide{
+	text-align: center;
+	text-shadow: 1px 1px 4px #000;
+	font-size: 50px;
+	color: #fff;
+}
+.swiper-pagination span{
+	background:#f60;
+}
+.f-page{
+	width:100%;
+	height:100%;
+	background:url(../images/2.jpg)no-repeat;
+}
+/*注册、登录*/
+.loginbox{
+	width:220px;
+	height:140px;
+	margin:30px auto;
+	font-size:30px;
+	position:relative;
+}
+.loginbox #user,.loginbox #pass{
+	
+	width:200px;
+	height:30px;
+	line-height:30px;
+	border-radius:5px;
+	border:none;
+	outline:none;
+	padding-left:5px;
+}
+.loginbox #login{
+	display:inline-block;
+	width:120px;
+	height:30px;
+	line-height:30px;
+	border-radius:5px;
+	background:#fafafa;
+	border:none;
+	outline:none;
+	font-size:16px;
+	color:#333;
+	box-shadow:5px 5px 5px 1px #000;
+	position:absolute;
+	bottom:10px;
+	left:50px;
+	cursor:pointer; 
+}
+
+
+/*翻页显示仿得静态页网站*/
+ul.menuList
+{   
+   margin:80px auto;
+	padding: 0;   
+	list-style: none;   
+	-webkit-perspective: 800px; /* 3D */  
+	-moz-perspective: 800px;   
+	perspective: 800px;   
+}   
+   
+ul.menuList li   
+{   
+	margin: 0 auto;   
+	display: inline-block;   
+	width: 200px; /*按钮大小 */  
+	height: 200px;   
+	margin-right: 15px; /*按钮之间空隙大小 */  
+   /* background:url(images/youku.jpg)no-repeat;  */ 
+	text-transform: uppercase;   
+	text-align: center;   
+}   
+   
+ul.menuList li a   
+{   
+	display: table;   
+	font: bold 30px Arial; /* 字体大小 */  
+	width: 100%;   
+	height: 100%;   
+	margin-bottom: 4px;   
+	color: black;   
+	text-decoration: none;   
+	outline: none;  
+	-webkit-transition: all 300ms ease-out; /*CSS3 transition。最后一个值是转换前暂停 */  
+	-moz-transition: all 300ms ease-out;   
+	transition: all 300ms ease-out;   
+}       
+ul.menuList li b   
+{   
+	/* CSS for text beneath button */ 
+	display: block;   
+	position: relative;   
+	width: 100%;   
+	opacity: 0;   
+	-webkit-transition: all 300ms ease-out 0.2s; /* CSS3 transition. 0.2s delay */  
+	-moz-transition: all 300ms ease-out 0.2s;   
+	transition: all 300ms ease-out 0.2s;   
+}
+.swiper-slide .f-page ul.menuList li b{
+	font-size:30px;
+}  
+ul.menuList li:hover a   
+{   
+	-webkit-transform: rotateY(180deg); /* flip horizontally 180deg*/  
+	-moz-transform: rotateY(180deg);   
+	transform: rotateY(180deg);   
+	-webkit-transition-delay: 0.2s;   
+	-moz-transition-delay: 0.2s;   
+	transition-delay: 0.2s;   
+}   
+ul.menuList li:hover a img   
+{   
+	color: black; /* color of icon font onMouseover */  
+	-webkit-transform: rotateY(180deg);   
+	-moz-transform: rotateY(180deg); /* flip horizontally 180deg*/  
+	transform: rotateY(180deg);   
+	-webkit-transition-delay: 0.2s;   
+	-moz-transition-delay: 0.2s;   
+	transition-delay: 0.2s;   
+}  
+ul.menuList li:hover b   
+{   
+	opacity: 1;   
+}
+/*模仿苹果滑动锁屏效果*/
+@keyframes test {
+	to{
+		background-position: 600px 0;
+	}
+}
+.top{
+	position:relative;
+	width:600px;
+	height:100px;
+	line-height:100px;
+	margin:0 auto;
+	font-size:40px;
+	text-align:center;
+	color:#333;
+	
+}
+.top span{
+	position:absolute;
+	left:0;
+	text-decoration:none;
+	font-family:'微软雅黑';
+	width:100%;
+	height:100px;
+	line-height:100px;
+}
+.top span.mask{
+	 background:-webkit-linear-gradient(-45deg, rgba(255,255,255,0) 40%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,1) 60%,rgba(255,255,255,0.5) 70%,rgba(255,255,255,0) 80%);
+	 background:-moz-linear-gradient(-45deg, rgba(255,255,255,0) 40%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 60%);
+	 background:-ms-linear-gradient(-45deg, rgba(255,255,255,0) 40%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 60%);
+	 background:-o-linear-gradient(-45deg, rgba(255,255,255,0) 40%,rgba(255,255,255,1) 50%,rgba(255,255,255,0) 60%);
+
+	-webkit-background-clip: text;
+	-ms-background-clip: text;
+	-o-background-clip: text;
+	-moz-background-clip: text;
+	color: rgba(0,0,0,0);
+	background-position: -600px 0;
+	animation: 5s test linear infinite;
+}
+/*第二页*/
+.f-page2{
+	width:100%;
+	height:100%;
+	background:url(../images/bg.jpg)no-repeat;
+	position:relative;
+}
+.wisdom{
+	width:700px;
+	height:560px;
+	background:url(../images/content.png)40px 60px no-repeat;
+	position:relative;
+}
+.wisdom span{
+	display:block;
+	width:13px;
+	height:15px;
+	background:url(../images/c1.png)no-repeat;
+	position:absolute;	
+}
+
+.wisdom .ico1{
+	right:143px;
+	top:87px;	
+}
+.wisdom .ico2{
+	right:152px;
+	top:215px;	
+}
+.wisdom .ico3{
+	right:30px;
+	top:280px;	
+}
+.wisdom .ico4{
+	right:148px;
+	top:494px;	
+}
+.wisdom .ico5{
+	right:146px;
+	top:360px;	
+}
+
+/*钟表*/
+
+.clock{
+	width:300px;
+	height:300px;
+	/*background: url(tick.png) no-repeat;*/
+	background-size: cover;
+	border-radius: 50%;
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	border: 1px solid #000;
+	box-shadow: 0px 0px 4px #000;
+}
+.cap{
+	width: 20px;
+	height: 20px;
+	background: -webkit-radial-gradient(center center,circle,#CF6,#FFF);
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-top: -10px;
+	margin-left: -10px;
+	border-radius: 50%;
+}
+.hour{
+	width:14px;
+	height:80px;
+	background: #000;
+	position: absolute;
+	left: 50%;
+	margin-left: -7px;
+	top: 50%;
+	margin-top: -80px;
+	border-radius: 50% 50% 0 0;
+
+	transform-origin: center bottom;
+
+
+}
+.min{
+	width:10px;
+	height:100px;
+	background: #000;
+
+	position: absolute;
+	left: 50%;
+	margin-left: -5px;
+	top: 50%;
+	margin-top: -100px;
+	border-radius: 50% 50% 0 0;
+
+	transform-origin: center bottom;
+
+}
+.sec{
+	width:4px;
+	height:120px;
+	background: #f00;
+
+	position: absolute;
+	left: 50%;
+	margin-left: -2px;
+	top: 50%;
+	margin-top: -120px;
+	border-radius: 50% 50% 0 0;
+
+	transform-origin: center bottom;
+}
+.scale{
+	width:2px;
+	height:10px;
+	background: #000;
+	position: absolute;
+	left: 50%;
+	margin-left: -1px;
+	transform-origin: center 150px;
+}
+.bs{
+	width:4px;
+	height:14px;
+	background: #000;
+	position: absolute;
+	left: 50%;
+	margin-left: -2px;
+	transform-origin: center 150px;
+}
+.bs strong{
+	margin-top: 20px;
+	position: absolute;
+	font-size: 24px;
+	width:100px;
+	text-align: center;
+	left: 50%;
+	margin-left: -50px;
+	text-shadow: 1px 1px 3px #000;
+}
+
+/*百度地图*/
+
+#div1{
+	width:650px;
+	height:400px;
+	position:absolute;
+	top:140px;
+	left:350px;
+	border: 1px solid #000;
+}
