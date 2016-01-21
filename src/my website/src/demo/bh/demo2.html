@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分块运动</title>
+<style>
+*{padding:0;margin:0;}
+input{width:100px;height:40px;position:absolute;left:100px;top:100px;}
+div{position:relative;width:700px;height:400px;margin:100px auto;}
+span{position:absolute;opacity:0;background:url(images/1.jpg)no-repeat;}
+</style>
+<script src="move.js"></script>
+<script>
+window.onload=function(){
+	var oDiv=document.getElementById('div1');
+	var Row=4;//行
+	var Col=7;//列
+	var W=700;
+	var H=400;
+	var width=W/Col;
+	var height=H/Row;
+	var aSpan=[];
+	for(var r=0;r<Row;r++)
+	{
+		for(var c=0;c<Col;c++)
+		{
+			var oSpan=document.createElement('span');
+			oSpan.style.width=width+'px';
+			oSpan.style.height=height+'px';
+			var left=c*width;
+			var top=r*height;
+			oSpan.style.left=left+'px';
+			oSpan.style.top=top+'px';
+			oSpan.style.backgroundPosition='-'+left+'px -'+top+'px';
+			oDiv.appendChild(oSpan);
+			aSpan.push(oSpan);
+		}
+	}
+	
+	var oBtn=document.getElementById('btn');
+	var oImg=document.getElementById('img1');
+	var now=0;//当前点击次数
+	var bFlag=true;
+	oBtn.onclick=function(){
+		now++;
+		//初始化
+		if(bFlag!=true)
+		{
+			return;
+		}
+		bFlag=false;
+		for(var i=0;i<aSpan.length;i++)
+		{
+			aSpan[i].style.opacity=0;
+			aSpan[i].style.backgroundImage='url(images/'+now%3+'.jpg)';
+		}
+		var n=0;
+		var timer=setInterval(function(){
+			(function(index){
+				move(aSpan[n],{opacity:1},{complete:function(){
+					if(index==aSpan.length-1)
+					{
+						oImg.src='images/'+now%3+'.jpg'
+						bFlag=true;
+					}						
+				}})
+			})(n)
+			
+			n++;
+			if(n==aSpan.length)
+			{
+				clearInterval(timer);
+			}
+			
+		},100)
+	};
+};
+
+
+</script>
+</head>
+
+<body>
+	<input type="button"id="btn"value="按钮"/>
+	<div id="div1">
+		<img src="images/0.jpg"id="img1"/>
+	</div>
+</body>
+</html>

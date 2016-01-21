@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>照片墙</title>
+<link href="base.css" rel="stylesheet">
+<style>
+body{ width:100%; height:100%; background-size:100% 100%; background:#CCD2EA;}
+.box{ width:606px; height:606px; margin:30px auto; border:1px solid #eee; }
+.box li{ width:200px; height:200px; float:left; border:1px solid #FFF; }
+.box li img{ display:block; width:100%; }
+
+#btn{ position:absolute; top:100px; left:100px; width:100px; height:40px; background:#eee; border:1px solid #ccc; }
+</style>
+<script src="move.js"></script>
+<script>
+window.onload=function (){
+	var aLi=document.querySelectorAll('li');
+	var zIndex=1;
+	
+	//进行布局转换，把 位置存起来
+	var aPos=[];
+	for(var i=0; i<aLi.length; i++)
+	{
+		aPos.push({
+			left:aLi[i].offsetLeft,
+			top:aLi[i].offsetTop
+		});
+	}
+	for(var i=0; i<aLi.length; i++)
+	{
+		aLi[i].style.left=aPos[i].left+'px';
+		aLi[i].style.top=aPos[i].top+'px';
+		aLi[i].style.position='absolute';
+	}
+	
+		// 拖拽
+	for (var i=0; i<aLi.length; i++)
+	{
+		drag(aLi[i]);
+		aLi[i].index=i;
+	}
+	
+	function drag(obj)
+	{
+		obj.onmousedown=function (ev){
+			var oNear=null;
+			var oEvent=ev || event;
+			var disX=oEvent.clientX-obj.offsetLeft;
+			var disY=oEvent.clientY-obj.offsetTop;
+			obj.style.zIndex=zIndex++;
+			
+			document.onmousemove=function (ev){
+				var oEvent=ev || event;
+				var left=oEvent.clientX-disX;
+				var top=oEvent.clientY-disY;
+				
+				obj.style.left=left+'px';
+				obj.style.top=top+'px';
+				
+				// 找最近
+				oNear=findNear(obj);
+				
+				if (oNear)
+				{
+					for (var i=0; i<aLi.length; i++)
+					{
+						aLi[i].className='';
+					}
+					
+					oNear.className='active';
+				}
+				else
+				{
+					for (var i=0; i<aLi.length; i++)
+					{
+						aLi[i].className='';
+					}
+				}
+			};
+			
+			document.onmouseup=function (){
+				document.onmousemove=null;
+				document.onmouseup=null;
+				
+				// 换位置
+				if (oNear)
+				{
+					move(oNear, aPos[obj.index]);
+					move(obj, aPos[oNear.index]);
+					
+					var tmp=obj.index;
+					obj.index=oNear.index;
+					oNear.index=tmp;
+					
+					oNear.className='';
+				}
+				else
+				{
+					move(obj, aPos[obj.index]);
+				}
+			};
+			
+			return false;
+		};
+	}
+	
+	function findNear(obj)
+	{
+		var nMin=99999;
+		var nMinIndex=-1;
+		
+		for (var i=0; i<aLi.length; i++)
+		{
+			if (obj == aLi[i])
+			{
+				continue;
+			}
+			
+			if (collTest(obj, aLi[i]))
+			{
+				var dis=getDis(obj, aLi[i]);
+				
+				if (dis < nMin)
+				{
+					nMin=dis;
+					nMinIndex=i;
+				}
+			}
+		}
+		
+		if (nMinIndex == -1)
+		{
+			return null;
+		}
+		else
+		{
+			return aLi[nMinIndex];
+		}
+	}
+	
+	function collTest(obj1, obj2)
+	{
+		var l1=obj1.offsetLeft;
+		var r1=l1+obj1.offsetWidth;
+		var t1=obj1.offsetTop;
+		var b1=t1+obj1.offsetHeight;
+		
+		var l2=obj2.offsetLeft;
+		var r2=l2+obj2.offsetWidth;
+		var t2=obj2.offsetTop;
+		var b2=t2+obj2.offsetHeight;
+		
+		if (l2>r1 || l1>r2 || t2>b1 || t1>b2)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	function getDis(obj1, obj2)
+	{
+		var a=obj1.offsetLeft+obj1.offsetWidth/2-(obj2.offsetLeft+obj2.offsetWidth/2);
+		var b=obj1.offsetTop+obj1.offsetHeight/2-(obj2.offsetTop+obj2.offsetHeight/2);
+		
+		return Math.sqrt(a*a+b*b);
+	}
+	
+	var oBtn=document.querySelector('input');
+	oBtn.onclick=function (){
+		aPos.sort(function (){
+			return Math.random()-0.5;
+		});
+		
+		for (var i=0; i<aLi.length; i++)
+		{
+			move(aLi[i], aPos[i], {
+				duration:700,
+			});
+		}
+	};
+};
+	
+</script>
+</head>
+
+<body>
+	<input type="button" value="随机换" id="btn"/>
+	<ul class="box clearFix">
+    	<li>
+        	<img src="images/a.jpg">
+        </li>
+        <li>
+        	<img src="images/b.jpg">
+        </li>
+        <li>
+        	<img src="images/c.jpg">
+        </li>
+        <li>
+        	<img src="images/d.jpg">
+        </li>
+        <li>
+        	<img src="images/e.jpg">
+        </li>
+        <li>
+        	<img src="images/f.jpg">
+        </li>
+        <li>
+        	<img src="images/g.jpg">
+        </li>
+        <li>
+        	<img src="images/h.jpg">
+        </li>
+        <li>
+        	<img src="images/i.jpg">
+        </li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>飞出的页码</title>
+<style>
+*{padding:0;margin:0;}
+input{position:absolute;left:150px;top:100px;width:50px;height:30px;}
+ul{width:510px;height:510px;margin:50px auto;border:1px solid black;}
+ul li{width:150px;height:150px;background:#9F3;float:left;margin:10px;list-style:none;text-align:center;line-height:150px;font-size:50px;color:#fff;}
+</style>
+<script src="move.js"></script>
+<script>
+window.onload=function(){
+	var aLi=document.getElementsByTagName('li');	
+	var aPos=[];//数组里
+	for(var i=0;i<aLi.length;i++)
+	{
+		var left=aLi[i].offsetLeft;
+		var top=aLi[i].offsetTop;
+		//把最开始的left top以json形式存下来
+		aPos.push({left:left,top:top});
+		
+		aLi[i].style.left=left+'px';
+		aLi[i].style.top=top+'px';
+	}
+	for(var i=0;i<aLi.length;i++)
+	{
+		aLi[i].style.position='absolute';
+		aLi[i].style.margin='0';
+	}
+	
+	var oBtn=document.getElementById('btn');
+	oBtn.onclick=function(){
+		var n=0;
+		var timer=setInterval(function(){
+			(function(index){
+				move(aLi[index],{left:0,top:0,width:0,height:0},{complete:function()
+					{
+						if(index==aLi.length-1)
+						{
+							
+							end();
+							for(var i=0;i<aLi.length;i++)
+							{
+								aLi[i].style.background='#fc0';
+							}
+						}
+					}
+				})
+				n++;
+				if(n==aLi.length)
+				{
+					clearInterval(timer);
+				}
+			})(n)	
+		},200)	
+		
+	};
+
+	function end()
+	{
+		//从最后一个 倒着回来
+		var n=aLi.length-1;
+		var timer=setInterval(function(){
+			move(aLi[n],{width:150,height:150,left:aPos[n].left,top:aPos[n].top})
+			n--;
+			if(n==-1)
+			{
+				clearInterval(timer);
+			}
+		},200)
+	}
+	
+};
+
+</script>
+</head>
+
+<body>
+	<input type="button"value="快按我"id="btn"/>
+	<ul>
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+		<li>4</li>
+		<li>5</li>
+		<li>6</li>
+		<li>7</li>
+		<li>8</li>
+		<li>9</li>
+	</ul>
+</body>
+</html>

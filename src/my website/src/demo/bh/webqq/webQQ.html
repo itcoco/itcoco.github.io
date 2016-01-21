@@ -1,0 +1,292 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+*{ margin:0; padding:0; list-style:none;}
+#loginBox{ width:300px; height:170px; border:1px solid #ccc; position:absolute; left:50%; top:50%; margin-left:-150px; margin-top:-105px; text-align:center; background:#909ef5;}
+#loginBox input{ border:1px solid #000; padding:5px; margin:3px;}
+#loginBox input[type=button]{ width:50px;}
+#faceBox{ margin-top:-45px;}
+#faceBox a{ text-decoration:none; color:#000;}
+#faceBox img{ vertical-align:middle; margin-left:40px;}
+
+#wrap{ width:500px; height:500px; border:1px solid #ccc; position:absolute; left:50%; top:50%; margin:-250px 0 0 -250px;}
+.left{ width:400px; height:100%; position:absolute; left:0; top:0; background:#ffe;}
+.left_top{ width:100%; height:300px; position:absolute; left:0; top:0; background:#ccc;overflow-y:scroll; overflow-x:hidden;}
+.left_top dl{ padding:10px; border-bottom:1px dashed #fff;}
+
+.left_bottom{ width:100%; height:200px; position:absolute; left:0; bottom:0; background:#eee;}
+.left_bottom textarea{ width:399px; height:198px; resize:none; outline:none; border:none; border-right:1px solid #ccc; font-size:20px; text-indent:5px;}
+.left_bottom input{ position:absolute; right:10px; bottom:10px; border:1px solid #000; padding:10px 20px;}
+
+
+.right{ width:100px; height:100%; position:absolute; right:0; top:0; background:#fff; overflow-y:scroll; overflow-x:hidden;}
+.right li{ height:30px; border-bottom:1px dashed #399; width:100px;}
+.right li span{ display:inline-block; width:73px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.right li img{ margin-left:5px; margin-top:3px;}
+</style>
+<script src="jsonp.js"></script>
+<script>
+function formatData(time){
+	var oDate=new Date();
+	oDate.setTime(time*1000);	
+	return oDate.getFullYear()+'-'+(oDate.getMonth()+1)+'-'+oDate.getDate()+' '+oDate.getHours()+':'+oDate.getMinutes()+':'+oDate.getSeconds();
+}
+window.onload=function(){
+	var oImg=document.getElementById('img1');	
+	var oNext=document.getElementById('next');
+	var oPrev=document.getElementById('prev');
+	var oUser=document.getElementById('username');
+	var oPass=document.getElementById('password');
+	var oAddBtn=document.getElementById('add_btn');
+	var oLgnBtn=document.getElementById('lgn_btn');
+	
+	var oLoginBox=document.getElementById('loginBox');
+	var oWrap=document.getElementById('wrap');
+	
+	var oUl=document.getElementById('ul1');
+	var oLeftTop=document.getElementById('left_top');
+	
+	var oBtn=document.getElementById('btn1');
+	var oT=document.getElementById('t1');
+	
+	
+	var iNow=4;
+	var URL='http://zhinengshe.com/exercise/im/api.php';
+	var maxId=0;
+	
+	oNext.onclick=function(){
+		iNow++;
+		if(iNow==9)iNow=1;
+		oImg.src='face/'+iNow+'.jpg';	
+	};
+	
+	//用户注册
+	oAddBtn.onclick=function(){
+		jsonp({
+			url:URL,
+			data:{
+				a:'reg',
+				user:oUser.value,
+				pass:oPass.value,
+				face:iNow	
+			},
+			success:function(json){
+				if(json.err){
+					alert('注册失败了:'+json.msg);
+				}else{
+					alert('注册成功');
+				}	
+			}
+		});	
+	};
+	oLgnBtn.onclick=function(){
+		jsonp({
+			url:URL,
+			data:{
+				a:'lgn',
+				user:oUser.value,
+				pass:oPass.value	
+			},
+			success:function(json){
+				if(json.err){
+					alert('登陆失败了:'+json.msg);
+				}else{
+					alert('登陆成功');
+					oWrap.style.display='block';
+					oLoginBox.style.display='none';
+					
+					//执行各种函数
+					getUserList(json.token);
+					getAllMsg(json.token);
+					sendMsg(json.token);
+					
+					setInterval(function(){
+						getNewMsg(json.token);
+					},1000);
+				}
+			}	
+		});	
+	};
+	
+	//获取用户列表
+	function getUserList(token){
+		jsonp({
+			url:URL,
+			data:{
+				a:'get_user_list',
+				token:token	
+			},
+			success:function(json){
+				if(json.err){
+					alert('获取用户列表失败了');
+				}else{
+					var arr=json.data;
+					for(var i=0; i<arr.length; i++){
+						var face=arr[i].face;
+						face<1 && (face=4);
+						face>8 && (face=7);
+						var oLi=document.createElement('li');
+						oLi.innerHTML='<img src="face/'+face+'.jpg" width="22"><span>'+arr[i].username+'</span>';
+						oUl.appendChild(oLi);
+					}
+				}
+			}	
+		});	
+	}
+	
+	//获取完整留言
+	function getAllMsg(token){
+		jsonp({
+			url:URL,
+			data:{
+				a:'get_msg',
+				token:token	
+			},
+			success:function(json){
+				if(json.err){
+					alert('获取完整消息失败了');
+				}else{
+					var arr=json.data;
+					for(var i=0; i<arr.length; i++){
+						var oDl=createMsg(arr[i].username,arr[i].post_time,arr[i].content);
+						oLeftTop.appendChild(oDl);
+						scrollBottom(oLeftTop);
+						
+						if(arr[i].ID>maxId){
+							maxId=arr[i].ID;
+						}
+					}
+				}
+			}	
+		});	
+	}
+	
+	function createMsg(username,time,content){
+		var oDl=document.createElement('dl');
+		oDl.innerHTML='<dt><strong>'+username+'</strong> <em>'+formatData(time)+'</em></dt> <dd>'+content+'</dd>';
+		return oDl;	
+	}
+	
+	//点击发送
+	function sendMsg(token){
+		oBtn.onclick=function(){
+			jsonp({
+				url:URL,
+				data:{
+					a:'snd_msg',
+					content:oT.value,
+					token:token	
+				},
+				success:function(json){
+					if(json.err){
+						alert('发言失败了');
+					}else{
+						var oDl=createMsg(oUser.value,json.time,oT.value);	
+						oLeftTop.appendChild(oDl);
+						scrollBottom(oLeftTop);
+						
+						oT.value='';
+						
+						if(json.ID>maxId){
+							maxId=json.ID;
+						}
+					}	
+				}	
+			});	
+		};	
+	}
+	
+	//保持在底部
+	function scrollBottom(obj){
+		obj.scrollTop=obj.scrollHeight;
+	}
+	
+	//获取更新
+	function getNewMsg(token){
+		jsonp({
+			url:URL,
+			data:{
+				a:'get_msg_n',
+				n:maxId,
+				token:token	
+			},
+			success:function(json){
+				if(json.err){
+					alert('获取更新失败了');
+				}else{
+					var arr=json.data;	
+					for(var i=0; i<arr.length; i++){
+						var oDl=createMsg(arr[i].username,arr[i].post_time,arr[i].content);
+						oLeftTop.appendChild(oDl);
+						scrollBottom(oLeftTop);
+						
+						if(arr[i].ID>maxId){
+							maxId=arr[i].ID;
+						}
+					}
+				}
+			}	
+		});	
+	}
+};
+</script>
+</head>
+
+<body background="bg.jpg">
+<div id="loginBox" style="display:block;">
+	<div id="faceBox">
+    	<img src="face/4.jpg" id="img1">
+        <a href="javascript:;" id="next">→</a>
+    </div>
+	<div>
+    	user:<input type="text" id="username"><br>
+		pass:<input type="text" id="password"><br>
+		<input type="button" value="注册" id="add_btn">
+        <input type="button" value="登陆" id="lgn_btn">
+    </div>
+</div>
+
+<div id="wrap" style="display:none;">
+	<div class="left">
+    	<div class="left_top" id="left_top">
+        	<!--<dl>
+            	<dt><strong>名称</strong> <em>2015-11-30</em></dt>
+                <dd>adasdfasdfasdfd</dd>
+            </dl>
+            <dl>
+            	<dt><strong>名称</strong> <em>2015-11-30</em></dt>
+                <dd>adasdfasdfasdfd</dd>
+            </dl>-->
+        </div>
+        <div class="left_bottom">
+        	<textarea id="t1"></textarea>
+            <input type="button" value="发送" id="btn1">
+        </div>
+    </div>
+    <div class="right">
+    	<ul id="ul1">
+        	<!--<li><img src="face/4.jpg" width="22"><span>xxxxxxxxxxxxxxxxxxxx</span></li>
+            <li><img src="face/4.jpg" width="22"><span>xxxxx</span></li>
+            <li><img src="face/4.jpg" width="22"><span>xxxxx</span></li>-->
+        </ul>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+a, img {
+	border: 0;
+}
+body{
+	background:#CCD2EA;
+}
+#lagou{width:888px;margin:30px auto;}
+#lagou li {overflow:hidden; position:relative; width:200px; height:200px; border:1px solid #000; float:left; margin:10px; }
+#lagou li a{display:block;width:100%;height:100%;position:relative;left:0;top:0;}
+#lagou li a span{ position:absolute; top:-200px; left:0; width:100%; height:100%; background:#000; opacity:0.6;text-align:center;line-height:200px;color:yellow;font-size:25px;}
+#lagou li a p{position:absolute;left:0;top:0;z-index:3;}
+#lagou li a img{width:200px;height:200px;}
+.title{width:300px;margin:50px auto;font-size:40px;color:#999;}
+</style>
+<script src="move.js"></script>
+<script>
+window.onload=function(){	
+	//拉勾
+	var oUl=document.getElementById('lagou');
+	var aLi=oUl.getElementsByTagName('li');
+	var aSpan=oUl.getElementsByTagName('span');
+	for (var i=0; i<aLi.length; i++)
+	{
+		enter(aLi[i],aSpan[i]);
+		leave(aLi[i],aSpan[i]);
+	}
+	
+	function enter(obj,oSpan)
+	{
+		obj.onmouseenter=function (ev){
+			var oEvent=ev || event;
+			var n=getN(obj, oEvent);
+			var oSpan=obj.children[0].children[0];
+			switch (n)
+			{
+				case 0: // right
+					oSpan.style.left='200px';
+					oSpan.style.top=0;
+					break;
+					
+				case 1: // bottom
+					oSpan.style.left=0;
+					oSpan.style.top='200px';
+					break;
+				
+				case 2: // left
+					oSpan.style.left='-200px';
+					oSpan.style.top=0;
+					break;
+					
+				case 3: // top
+					oSpan.style.left=0;
+					oSpan.style.top='-200px';
+					break;
+			}
+			move(oSpan, {top:0, left:0});
+		};
+	}
+	
+	function leave(obj,oSpan)
+	{
+		obj.onmouseleave=function (ev){
+			var oEvent=ev || event;
+			var n=getN(obj, oEvent);
+			var oSpan=obj.children[0].children[0];
+			
+			switch (n)
+			{
+				case 0: // right
+					move(oSpan, {left:200, top:0});
+					break;
+					
+				case 1: // bottom
+					move(oSpan, {top:200, left:0});
+					break;
+				
+				case 2: // left
+					move(oSpan, {top:0, left:-200});
+					break;
+					
+				case 3: // top
+					move(oSpan, {top:-200, left:0});
+					break;
+			}
+		};
+	}
+	
+	function getN(obj,ev)
+	{
+		var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+		var x=obj.offsetLeft+obj.offsetWidth/2-ev.clientX;
+		var y=obj.offsetTop+obj.offsetHeight/2-ev.clientY-scrollTop;
+		
+		var n=Math.round((d2a(Math.atan2(y, x))+180)/90)%4;
+		return n;
+	}
+
+	function d2a(d)
+	{
+		return d*180/Math.PI;
+	}
+};
+</script>
+</head>
+
+<body>
+	<h1 class="title">案例效果展示</h1>
+	<ul id="lagou">
+		<li>
+			<a href="bh/demo1.html"target="_blank">
+				<span><h2>飞出的页码</h2></span>
+				<img src="s1.jpg"/>
+				
+			</a>
+		</li>
+		<li>
+			<a href="bh/demo2.html"target="_blank">
+				<span><h2>分块运动</h2></span>
+				<img src="s2.jpg"/>
+			</a>
+		</li>
+		<li>
+			<a href="bh/demo3.html"target="_blank">
+				<span><h2>淘宝放大镜</h2></span>
+				<img src="s3.jpg"/>
+			</a>
+		</li>
+		<li>
+			<a href="bh/demo4.html"target="_blank">
+				<span><h2>时钟</h2></span>
+				<img src="s4.jpg"/>
+			</a>
+		</li>
+		
+		<li>
+			<a href="bh/myWish/index.html"target="_blank">
+				<span><h2>许愿墙</h2></span>
+				<img src="s5.jpg"/>
+			</a>
+		</li>
+		<li>
+			<a href="bh/demo6.html"target="_blank">
+				<span><h2>拼图照片</h2></span>
+				<img src="s6.jpg"/>
+			</a>
+		</li>
+		<li>
+			<a href="bh/demo7.html"target="_blank">
+				<span><h2>圆</h2></span>
+				<img src="s7.jpg"/>
+			</a>
+		</li>
+		<li>
+			<a href="bh/demo8/bh_demo.html"target="_blank">
+				<span><h2>语录</h2></span>
+				<img src="s8.jpg"/>
+			</a>
+		</li>
+	</ul>
+
+</body>
+</html>

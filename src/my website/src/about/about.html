@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+* {margin: 0;padding: 0;list-style-type: none;}
+a, img {border: 0;}
+body{background:#CCD2EA;}
+#imgbj{width:1000px;height:651px;background:url(IMG_8130.JPG)no-repeat;margin:0 auto;position:relative;}
+#border1{position:relative;left:20px;top:20px;}
+#border2{position:relative;left:120px;top:40px;}
+#border3{position:relative;left:400px;top:60px;}
+.name{position:absolute;top:25px;left:25px;font-size:20px;color:#999;font-weight:bold;}
+.name2{position:absolute;top:50px;left:75px;font-size:30px;color:#10BC25;font-weight:bold;}
+
+.job{position:absolute;top:35px;left:35px;font-size:22px;color:#999;font-weight:bold;}
+.job2{position:absolute;top:80px;left:45px;font-size:30px;color:#10BC25;font-weight:bold;}
+
+.phone{position:absolute;top:45px;left:50px;font-size:22px;color:#999;font-weight:bold;}
+.phone2{position:absolute;top:75px;left:100px;font-size:30px;color:#10BC25;font-weight:bold;}
+.email{position:absolute;top:120px;left:100px;font-size:30px;color:#10BC25;font-weight:bold;}
+
+.photo{overflow:hidden;width:200px;height:200px;border:1px solid black;position:absolute;bottom:80px;left:80px;border-radius:50%;}
+.ph{position:relative;left:80px;top:-160px;font-size:30px;color:#999;}
+.content{width:1000px;margin:20px auto;font-size:20px;line-height:30px;overflow:hidden;}
+.content img{float:left; padding-right:30px;}
+/*地图*/
+#div1{width:900px;height:400px;margin:100px auto;border: 1px solid #000;}
+/*联系我们*/
+.g-contact{width:100%;height:100%;text-align:center;}
+.g-contact ul { width:100%; display:-webkit-box; display:-moz-box; display:-ms-box; padding-top:10px; }
+.g-contact ul li {line-height:100px; font-size:20px; font-family:'微软雅黑';  -webkit-box-flex:1; -moz-box-flex:1; -ms-box-flex:1; width:100px; height:100px; margin-left:50px; }
+.g-contact ul li:nth-child(1) { background:url(phone.png) no-repeat;  background-size:contain; }
+.g-contact ul li:nth-child(2) { background:url(email.png) no-repeat; background-size:contain; padding-left:40px;}
+.g-contact ul li:nth-child(3) { background:url(weixin.png) no-repeat;background-size:contain; margin-left:30px;}
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
+
+<script>
+window.onload=function(){
+	;(function(){
+		
+	 	var oT=document.getElementById('t1');
+
+		//1. 创建地图
+		var map = new BMap.Map("div1");
+		//2. 标注位置
+		var point=new BMap.Point(116.303461,40.153125)
+		//3. 显示到地图上
+		map.centerAndZoom(point,15);
+		//4. 添加标记物
+		var marker=new BMap.Marker(point);
+		map.addOverlay(marker);
+		//开启鼠标缩放地图
+		map.enableScrollWheelZoom(true);
+	})()
+	
+};
+</script>
+</head>
+
+<body>
+	
+	
+	<div id="imgbj">
+		
+		<div id="border1"><span class="name">姓名：</span><span class="name2">班慧</span><img src="ku.jpg" style="width:180px;"/></div>
+		<div id="border2"><span class="job">求职意向：</span><span class="job2">前端开发工程师</span><img src="ku.jpg" style="width:280px;"/></div>
+		<div id="border3"><span class="phone">联系方式：</span><span class="phone2">18634810927</span><span class="email">1186139051@qq.com</span><img src="ku.jpg" style="width:400px;"/></div>
+		<h3 class="ph">Personal photo<img src="hudie.gif"id="fly"/></h3>
+		<div class="photo">
+			<img src="h5.jpg"/>
+		</div>
+	</div>
+	
+	<p class="content"></p>
+	<!--地图-->
+	<div id="div1"></div>
+	<div class="g-contact">
+		<ul>
+			<li><em>18634810927</em></li>
+			<li><em>coco_9696@163.com</em></li>
+			<li><em><img width="110" height="110" src="IMG_8490.PNG"></em></li>
+		</ul>
+	</div>
+	<!--<embed src="1.mp4"width="100%"height="560px"></embed>-->
+	
+</body>
+</html>

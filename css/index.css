@@ -28,11 +28,12 @@ html,body{
 /*注册、登录*/
 .loginbox{
 	width:220px;
-	height:140px;
+	height:180px;
 	margin:30px auto;
 	font-size:30px;
 	position:relative;
 }
+#a-box{position:absolute;left:0;top:0;width:100%;height:100%;}
 .loginbox #user,.loginbox #pass{
 	
 	width:200px;
@@ -42,6 +43,7 @@ html,body{
 	border:none;
 	outline:none;
 	padding-left:5px;
+	margin-top:12px;
 }
 .loginbox #login{
 	display:inline-block;
@@ -75,7 +77,7 @@ ul.menuList
    
 ul.menuList li   
 {   
-	margin: 0 auto;   
+	margin:0 auto;   
 	display: inline-block;   
 	width: 200px; /*按钮大小 */  
 	height: 200px;   
@@ -315,14 +317,26 @@ ul.menuList li:hover b
 	margin-left: -50px;
 	text-shadow: 1px 1px 3px #000;
 }
-
-/*百度地图*/
-
-#div1{
-	width:650px;
-	height:400px;
-	position:absolute;
-	top:140px;
-	left:350px;
-	border: 1px solid #000;
+/*第三页*/
+.f-page3{
+	width:100%;
+	height:100%;
+	background:url(../images/b.jpg);	
 }
+/* header.css */
+.header{ width:100%; height:60px; position:fixed; top:0; left:0; z-index:1;}
+.header .opa{ height:60px; width:100%; opacity:0.5; filter:alpha(opacity:50);position:fixed; top:0; left:0;background:#fff;}
+.head{height:60px;width:100%; margin:0 auto; position:fixed;}
+.head  .logo{ margin:0 30px;}
+.head_img{border-radius:50%; cursor:pointer; transition:all 0.5s linear; }
+.head_img:hover{box-shadow:0px 0px 10px #999; transform:rotate(360deg);}
+.head   img{border-radius:50%;width:60px; height:60px;}
+.head_p{width:500px;height:60px;text-align: center;color: #f60; margin:7px 0  0  15px;font-size:14px;}
+.head_p1{margin: 0px 15px 5px;padding: 5px 15px;width: 50px;border-bottom: 1px solid #333;}
+.head_p2{width: 70px;padding: 0 15px;}
+.head_p2  a{ cursor:pointer;}
+.head_p1:hover,.head_p2:hover{ color:#999;}
+.head_nav{ padding-right:20px; position:relative; margin-top:10px;height:60px;}
+.head_nav  li{ float:left;color:#6F6; width:88px; height:40px;text-align:center; line-height:40px;z-index:2; position:relative; font-size:20px; border-radius:5px; cursor:pointer;}
+.head_nav  li a{color:#6F6;}
+.head_nav  .box{  position: absolute; left:0;top:0; background:#fff;z-index: 1; opacity:0.4;}
